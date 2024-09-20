@@ -35,10 +35,47 @@ def vsebina_datoteke(ime_datoteke):
         return datoteka.read()
     
 
+
+
+
+if not os.path.exists('igre'):
+    print("Imenik 'igre' ne obstaja.")
+else:
+    print("Imenik obstaja in vsebuje:", os.listdir('igre'))
+
+for i in range(1, 21):
+    if i == 1:
+        url = 'https://boardgamegeek.com/browse/boardgame/page/1'
+    else:
+        url = f'https://boardgamegeek.com/browse/boardgame/page/{i}'
+    
+    ime_datoteke = os.path.join('igre', f'igre{i}.html')
+
+    shrani_spletno_stran(url, ime_datoteke)
+                
+
+
+
+
+from posamezen_blok import izloci_podatke_igre, posamezni_blok
+
+count = 0
+for i in range (1, 21):
+    ime_datoteke = os.path.join('igre', f'igre{i}.html')
+    with open(ime_datoteke, encoding='utf-8') as f:
+        vsebina = f.read()
+    for blok in posamezni_blok.finditer(vsebina):
+        print(izloci_podatke_igre(blok.group(0)))
+        count += 1
+    print(count)
+
+
+
+
 def zapisi_csv(slovarji, imena_polj, ime_datoteke):
     '''Iz seznama slovarjev ustvari CSV datoteko z glavo'''
     pripravi_imenik(ime_datoteke)
-    with open(ime_datoteke, 'w', encoding='utff-8') as csv_datoteka:
+    with open(ime_datoteke, 'w', encoding='utf-8') as csv_datoteka:
         writer = csv.DictWriter(csv_datoteka, fieldnames=imena_polj)
         writer.writeheader()
         writer.writerows(slovarji)
