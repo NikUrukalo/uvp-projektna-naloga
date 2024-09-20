@@ -10,7 +10,6 @@ with open('podatki-o-igrah.html', 'r', encoding='utf-8') as f:
 
 bloki = posamezen_blok.findall(stran)
 
-print(f"Število najdenih blokov: {len(bloki)}")
 
 posamezna_igra = re.compile(
     r'<a name="(?P<rang>\d+)"></a>.*?'
@@ -34,6 +33,9 @@ def izloci_podatke_igre(blok):
     igra['stevilo_glasov'] = int(igra['stevilo_glasov'])
     return igra
 
-for blok in bloki:
-    podatki_igre = izloci_podatke_igre(blok)
-    print(podatki_igre)
+count = 0
+for blok in posamezen_blok.finditer(stran):
+    print(izloci_podatke_igre(blok.group(0)))
+    count += 1
+print(count)
+
