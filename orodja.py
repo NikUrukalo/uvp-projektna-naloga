@@ -3,6 +3,7 @@ import json
 import os
 import requests
 import sys
+import json
 
 def pripravi_imenik(ime_datoteke):
     '''Če še ne obstaja, pripravi prazen imenik za dano datoteko.'''
@@ -59,15 +60,17 @@ for i in range(1, 21):
 
 from posamezen_blok import izloci_podatke_igre, posamezni_blok
 
+igre = []
 count = 0
 for i in range (1, 21):
     ime_datoteke = os.path.join('igre', f'igre{i}.html')
     with open(ime_datoteke, encoding='utf-8') as f:
         vsebina = f.read()
     for blok in posamezni_blok.finditer(vsebina):
-        print(izloci_podatke_igre(blok.group(0)))
+        igra = izloci_podatke_igre(blok.group(0))
         count += 1
-    print(count)
+        igre.append(igra)
+print(count)
 
 
 
@@ -86,3 +89,5 @@ def zapisi_json(objekt, ime_datoteke):
     pripravi_imenik(ime_datoteke)
     with open(ime_datoteke, 'w', encoding='utf-8') as json_datoteka:
         json.dump(objekt, json_datoteka, indent=4, ensure_ascii=False)
+
+zapisi_json(igre, "igre.json")

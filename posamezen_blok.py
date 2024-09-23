@@ -15,7 +15,7 @@ posamezna_igra = re.compile(
     r'<a name="(?P<rang>\d+)"></a>.*?'
     r'alt="Board Game: (?P<ime>.*?)".*?'
     r'<span class=\'smallerfont dull\'>\((?P<leto>-?\d{4})\)</span>.*?'
-    r'<p class="smallefont dull".*?>(?P<opis>.*?)</p>.*?'
+    r'(<p class="smallefont dull".*?>(?P<opis>(.*?)?)</p>.*?)?'
     r'<td class=\'collection_bggrating\' align=\'center\'>\s*(?P<ocena_strani>\d+\.\d+)\s*</td>.*?'
     r'<td class=\'collection_bggrating\' align=\'center\'>\s*(?P<povprecna_ocena>\d+\.\d+)\s*</td>.*?'
     r'<td class=\'collection_bggrating\' align=\'center\'>\s*(?P<stevilo_glasov>\d+)\s*</td>',
@@ -27,7 +27,10 @@ def izloci_podatke_igre(blok):
     igra['rang'] = int(igra['rang'])
     igra['ime'] = igra['ime'].strip()
     igra['leto'] = int(igra['leto'])
-    igra['opis'] = re.sub(r'\s+', ' ', igra['opis']).strip()
+    if igra['opis']:
+        igra['opis'] = re.sub(r'\s+', ' ', igra['opis']).strip()
+    else:
+        igra['opis'] = "Description is not provided."
     igra['ocena_strani'] = float(igra['ocena_strani'])
     igra['povprecna_ocena'] = float(igra['povprecna_ocena'])
     igra['stevilo_glasov'] = int(igra['stevilo_glasov'])
