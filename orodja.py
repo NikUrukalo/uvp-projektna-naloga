@@ -91,3 +91,7 @@ def zapisi_json(objekt, ime_datoteke):
         json.dump(objekt, json_datoteka, indent=4, ensure_ascii=False)
 
 zapisi_json(igre, "igre.json")
+
+imena_polj = ['rang', 'ime', 'leto', 'opis', 'ocena_strani', 'povprecna_ocena', 'stevilo_glasov']
+
+zapisi_csv(igre, imena_polj, 'igre.csv')
