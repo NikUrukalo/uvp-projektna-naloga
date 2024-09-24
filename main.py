@@ -4,6 +4,7 @@ import os
 import requests
 import sys
 import json
+import time
 
 def pripravi_imenik(ime_datoteke):
     '''Če še ne obstaja, pripravi prazen imenik za dano datoteko.'''
@@ -38,13 +39,12 @@ def vsebina_datoteke(ime_datoteke):
 
 
 
-
 if not os.path.exists('igre'):
     print("Imenik 'igre' ne obstaja.")
 else:
     print("Imenik obstaja in vsebuje:", os.listdir('igre'))
 
-for i in range(1, 21):
+for i in range(1, 11):
     if i == 1:
         url = 'https://boardgamegeek.com/browse/boardgame/page/1'
     else:
@@ -53,16 +53,14 @@ for i in range(1, 21):
     ime_datoteke = os.path.join('igre', f'igre{i}.html')
 
     shrani_spletno_stran(url, ime_datoteke)
+
                 
-
-
-
 
 from posamezen_blok import izloci_podatke_igre, posamezni_blok
 
 igre = []
 count = 0
-for i in range (1, 21):
+for i in range (1, 11):
     ime_datoteke = os.path.join('igre', f'igre{i}.html')
     with open(ime_datoteke, encoding='utf-8') as f:
         vsebina = f.read()
