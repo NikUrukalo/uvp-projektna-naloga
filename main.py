@@ -4,7 +4,7 @@ import os
 import requests
 import sys
 import json
-import time
+
 
 def pripravi_imenik(ime_datoteke):
     '''Če še ne obstaja, pripravi prazen imenik za dano datoteko.'''
@@ -31,14 +31,6 @@ def shrani_spletno_stran(url, ime_datoteke, vsili_prenos=False):
             print('shranjeno!')
 
 
-def vsebina_datoteke(ime_datoteke):
-    '''Vrne niz z vsebino datoteke z danim imenom.'''
-    with open(ime_datoteke, encoding='utf-8') as datoteka:
-        return datoteka.read()
-    
-
-
-
 if not os.path.exists('igre'):
     print("Imenik 'igre' ne obstaja.")
 else:
@@ -56,7 +48,7 @@ for i in range(1, 11):
 
                 
 
-from posamezen_blok import izloci_podatke_igre, posamezni_blok
+from izlusci_igro import izloci_podatke_igre, posamezni_blok
 
 igre = []
 count = 0
@@ -72,6 +64,13 @@ print(count)
 
 
 
+def zapisi_json(objekt, ime_datoteke):
+    '''Iz danega objekta ustvari JSON datoteko.'''
+    pripravi_imenik(ime_datoteke)
+    with open(ime_datoteke, 'w', encoding='utf-8') as json_datoteka:
+        json.dump(objekt, json_datoteka, indent=4, ensure_ascii=False)
+
+zapisi_json(igre, "igre.json")
 
 def zapisi_csv(slovarji, imena_polj, ime_datoteke):
     '''Iz seznama slovarjev ustvari CSV datoteko z glavo'''
@@ -80,15 +79,6 @@ def zapisi_csv(slovarji, imena_polj, ime_datoteke):
         writer = csv.DictWriter(csv_datoteka, fieldnames=imena_polj)
         writer.writeheader()
         writer.writerows(slovarji)
-
-
-def zapisi_json(objekt, ime_datoteke):
-    '''Iz danega objekta ustvari JSON datoteko.'''
-    pripravi_imenik(ime_datoteke)
-    with open(ime_datoteke, 'w', encoding='utf-8') as json_datoteka:
-        json.dump(objekt, json_datoteka, indent=4, ensure_ascii=False)
-
-zapisi_json(igre, "igre.json")
 
 imena_polj = ['rang', 'ime', 'leto', 'opis', 'ocena_strani', 'povprecna_ocena', 'stevilo_glasov']
 
